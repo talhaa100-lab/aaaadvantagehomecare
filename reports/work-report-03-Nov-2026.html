@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Website redesign daily work report</title>
+<style>
+  @page { size: Letter; margin: 0.6in 0.75in; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Calibri, "Segoe UI", sans-serif;
+    font-size: 12pt;
+    line-height: 1.45;
+    color: #1b2744;
+  }
+  h1 { font-size: 20pt; line-height: 1.2; margin: 0 0 4px; font-weight: 700; }
+  .sub { font-size: 12pt; color: #5c6d64; margin: 0 0 14px; }
+  hr { border: 0; border-top: 1px solid #c5d0cb; margin: 0; }
+  table.meta { border-collapse: collapse; margin: 8px 0; }
+  table.meta td { padding: 2px 0; vertical-align: top; }
+  table.meta td:first-child { font-weight: 700; width: 97px; }
+  h2 { font-size: 13pt; margin: 16px 0 5px; font-weight: 700; display: flex; justify-content: space-between; }
+  h2 span { color: #5c6d64; font-weight: 400; font-size: 12pt; }
+  p { margin: 0 0 8px; }
+  b.lead { font-weight: 700; }
+  code { font-family: Consolas, monospace; font-size: 11pt; }
+  .foot { color: #5c6d64; margin-top: 14px; padding-top: 8px; border-top: 1px solid #c5d0cb; }
+</style>
+</head>
+<body>
+
+<h1>Daily work report</h1>
+<p class="sub">Website redesign: market research and two design prototypes</p>
+<hr />
+<table class="meta">
+  <tr><td>Name</td><td>Talha</td></tr>
+  <tr><td>Date</td><td>Tuesday, 3 November 2026</td></tr>
+  <tr><td>Hours</td><td>7 hours</td></tr>
+</table>
+<hr />
+
+<h2>1. Project summary</h2>
+<p>
+  I researched leading websites to see what makes their design stronger and where ours falls
+  short, then built two design prototypes from that research. Both use the same client content,
+  so only design and layout change. The current live design is untouched.
+</p>
+
+<h2>2. UI analysis <span>2.5 hours</span></h2>
+<p>
+  Reviewed the reference sites shared (including brevy.com and mavenclinic.com). They win with
+  large, confident typography, a restrained palette with one accent, deliberate spacing, framed
+  photography and purposeful motion. Our current design reads as flat: sections look alike,
+  hierarchy is weak and buttons give little feedback. After building the prototypes, I reviewed
+  them in the browser at different window sizes, tightened the gap between the nav bar and the
+  hero, resized the hero photo to fit the screen height and re-centered the subject. Type checks
+  pass.
+</p>
+
+<h2>3. Prototype 1: Second page <span>2 hours</span></h2>
+<p>
+  Route <code>/second</code>. Medical-style look with a navy and cobalt palette, light display
+  headlines with italic accents, a hero with a framed photo and glass detail cards, scroll
+  reveals, and clear hover and press feedback on buttons.
+</p>
+
+<h2>4. Prototype 2: Third page <span>2.5 hours</span></h2>
+<p>
+  Route <code>/third</code>. A new layout and identity in pine green and coral: arched hero photo
+  with a call button, sticky step cards, a scrolling services rail, tabbed benefits, interactive
+  stories, FAQ accordion and lead form. Motion includes a full-screen menu that opens from the
+  toggle button, sliding button fills, a tab color wipe and scroll reveals, with reduced-motion
+  support.
+</p>
+
+<div class="foot">Talha · 3 November 2026 · 7 hours</div>
+
+</body>
+</html>

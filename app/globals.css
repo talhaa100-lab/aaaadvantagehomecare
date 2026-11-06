@@ -1,0 +1,475 @@
+@import "tailwindcss";
+
+/*
+  Palette: deliberately not green-on-cream.
+  Ink + white carry the page, Ember is the single warm accent,
+  Peach / Mist are quiet surfaces. The logo's green stays inside the logo.
+*/
+@theme {
+  --color-ink: #111513;
+  --color-ink-soft: #505753;
+  --color-mist: #f2f2ef;
+  --color-line: #d8d9d4;
+  --color-ember: #ff6a3d;
+  --color-ember-deep: #e24a1b;
+  --color-peach: #ffe7dc;
+
+  /* institutional navy + clinical blue */
+  --color-navy: #0b2540;
+  --color-navy-deep: #071a2e;
+  --color-cobalt: #1e5a96;
+  --color-cobalt-deep: #164677;
+  --color-sky: #e7eff6;
+  --color-frost: #f7f9fb;
+  --color-edge: #d5dee8;
+  --color-slate-ink: #4a5b6e;
+  --color-cream: #f6f2ea;
+  --color-sand: #ece5d6;
+  --color-apricot: #f0a35e;
+
+}
+
+@theme inline {
+  --font-sans: var(--font-dm), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-newsreader), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background: #fff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ember);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ember-deep);
+  outline-offset: 3px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.035em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Main site scope ---------- */
+
+.med {
+  /* Motion tokens (emil-design-eng) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  font-family: var(--font-dm), ui-sans-serif, system-ui, sans-serif;
+  color: var(--color-navy);
+  background: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+}
+.med .font-display {
+  font-family: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  letter-spacing: -0.02em;
+}
+.med ::selection {
+  background: var(--color-navy);
+  color: #fff;
+}
+.med :focus-visible {
+  outline: 2px solid var(--color-cobalt);
+  outline-offset: 3px;
+}
+
+/* ── Buttons: every pressable element gets the same press feel ── */
+.med .med-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  padding: 0.95rem 1.65rem;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 250ms var(--ease-out);
+}
+.med .med-btn:active {
+  transform: scale(0.97);
+}
+.med .med-btn svg {
+  transition: transform 250ms var(--ease-out);
+}
+.med .med-btn-primary {
+  background: var(--color-navy);
+  color: #fff;
+}
+.med .med-btn-ghost {
+  border-color: rgb(11 37 64 / 0.28);
+  color: var(--color-navy);
+}
+.med .med-btn-light {
+  background: var(--color-cream);
+  color: var(--color-navy);
+}
+@media (hover: hover) and (pointer: fine) {
+  .med .med-btn:hover svg {
+    transform: translateX(3px);
+  }
+  .med .med-btn-primary:hover {
+    background: var(--color-cobalt);
+    box-shadow: 0 14px 28px -14px rgb(30 90 150 / 0.7);
+  }
+  .med .med-btn-ghost:hover {
+    background: var(--color-navy);
+    border-color: var(--color-navy);
+    color: #fff;
+  }
+  .med .med-btn-light:hover {
+    background: #fff;
+  }
+}
+
+/* ── Cards: soft lift on hover (pointer devices only) ── */
+.med .med-card {
+  transition:
+    transform 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    border-color 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .med .med-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 44px -28px rgb(11 37 64 / 0.4);
+    border-color: rgb(11 37 64 / 0.22);
+  }
+}
+
+/* ── Nav: underline grows from the left ── */
+.med .med-link {
+  position: relative;
+}
+.med .med-link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -4px 0;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 260ms var(--ease-out);
+}
+.med .med-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .med .med-link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Same sweep for inline text (phone number etc.) */
+.med .med-sweep {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size 350ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .med .med-sweep:hover {
+    background-size: 100% 2px;
+  }
+}
+
+/* ── Dropdown: scales out of its trigger (origin-aware) ── */
+.med .med-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px) scale(0.97);
+  transform-origin: top left;
+  transition:
+    opacity 160ms var(--ease-out),
+    transform 160ms var(--ease-out),
+    visibility 0s linear 160ms;
+}
+.med .group:focus-within > .med-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .med .group:hover > .med-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+}
+
+/* ── Hero entrance: runs once on load (CSS, off the main thread) ── */
+@keyframes med-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+@keyframes med-photo {
+  from {
+    clip-path: inset(0 0 100% 0 round 2rem);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 2rem);
+  }
+}
+@keyframes med-settle {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes med-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes med-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.med .med-in {
+  animation: med-rise 800ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+}
+.med .med-photo {
+  animation: med-photo 1100ms var(--ease-in-out) 150ms both;
+}
+.med .med-settle {
+  animation: med-settle 1600ms var(--ease-out) 150ms both;
+}
+.med .med-pop {
+  animation: med-pop 700ms var(--ease-out) both;
+  animation-delay: var(--d, 900ms);
+}
+.med .med-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: med-draw 1000ms var(--ease-in-out) 1000ms forwards;
+}
+
+/* Photo drifts as you scroll (progressive enhancement) */
+@supports (animation-timeline: view()) {
+  @keyframes med-parallax {
+    from {
+      transform: translateY(-5%) scale(1.08);
+    }
+    to {
+      transform: translateY(5%) scale(1.08);
+    }
+  }
+  .med .med-parallax {
+    animation: med-parallax linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+}
+
+/* ── Marquee (constant motion = linear) ── */
+@keyframes med-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.med .med-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: med-marquee 48s linear infinite;
+}
+.med .med-marquee:hover .med-marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── Scroll reveal: only when JS can reveal it ── */
+@media (scripting: enabled) {
+  .med [data-reveal="up"] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 700ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  /* The observed wrapper is unclipped; its .med-clip child is what reveals
+     (a fully clipped element has zero visible area and would never intersect). */
+  .med .med-clip {
+    clip-path: inset(0 0 100% 0 round var(--r, 1.5rem));
+    transition: clip-path 1000ms var(--ease-in-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  .med [data-reveal="up"][data-visible] {
+    opacity: 1;
+    transform: none;
+  }
+  .med [data-visible] .med-clip {
+    clip-path: inset(0 0 0 0 round var(--r, 1.5rem));
+  }
+
+  /* Timeline line draws, dots pop in sequence */
+  .med .med-line {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1300ms var(--ease-in-out) 200ms;
+  }
+  .med [data-visible] .med-line {
+    transform: scaleX(1);
+  }
+  .med .med-dot {
+    opacity: 0;
+    transform: scale(0.85);
+    transition:
+      opacity 500ms var(--ease-out),
+      transform 500ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 330ms + 250ms);
+  }
+  .med [data-visible] .med-dot {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Checkmarks draw themselves */
+  .med .med-check path {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
+    transition: stroke-dashoffset 600ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms + 300ms);
+  }
+  .med [data-visible] .med-check path,
+  .med [data-visible].med-check path {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── FAQ: height animates open/closed (Chromium; instant elsewhere) ── */
+.med details.faq {
+  interpolate-size: allow-keywords;
+}
+.med details.faq::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 280ms var(--ease-out),
+    content-visibility 280ms allow-discrete;
+}
+.med details.faq[open]::details-content {
+  block-size: auto;
+}
+
+/* ── Reduced motion: gentler, not zero ── */
+@media (prefers-reduced-motion: reduce) {
+  .med .med-in,
+  .med .med-pop {
+    animation: med-fade 300ms ease both;
+    animation-delay: 0ms;
+  }
+  .med .med-photo,
+  .med .med-settle,
+  .med .med-parallax {
+    animation: none;
+  }
+  .med .med-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .med .med-marquee-track {
+    animation: none;
+  }
+  .med [data-reveal="up"] {
+    transform: none !important;
+    transition: opacity 300ms ease !important;
+    transition-delay: 0s !important;
+  }
+  .med .med-clip {
+    clip-path: none !important;
+    opacity: 0;
+    transition: opacity 300ms ease !important;
+    transition-delay: 0s !important;
+  }
+  .med [data-visible] .med-clip {
+    opacity: 1;
+  }
+  .med .med-line,
+  .med .med-dot {
+    transition: none !important;
+  }
+  .med .med-btn:active {
+    transform: none;
+  }
+}
+@keyframes med-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------- FAQ ---------- */
+
+details.faq > summary {
+  list-style: none;
+}
+details.faq > summary::-webkit-details-marker {
+  display: none;
+}
+details.faq[open] .faq-plus {
+  transform: rotate(45deg);
+}
+details.faq[open] .med-chevron {
+  transform: rotate(180deg);
+}
+
+/* ---------- Horizontal rail ---------- */
+
+.rail {
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
