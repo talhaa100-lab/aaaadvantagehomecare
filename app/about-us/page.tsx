@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronRight, MapPin } from "lucide-react";
-import { locations, services } from "../lib/content";
+import { ArrowRight, ArrowUpRight, ChevronRight, MapPin } from "lucide-react";
+import { services } from "../lib/content";
+import { cityPath, citiesInState } from "../lib/cities";
+import { locationPages } from "../lib/locations";
 import { aboutPage, paragraphs } from "../lib/pages";
 import { MedHeader } from "../components/MedHeader";
 import { MedFooter } from "../components/MedFooter";
@@ -138,6 +140,75 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Locations — every state we serve, with its cities */}
+        <section className={`${wrap} py-20 lg:py-28`} aria-labelledby="serving">
+          <div className="max-w-2xl" data-reveal="up">
+            <Label>Locations</Label>
+            <h2 id="serving" className={`${h2} mt-5`}>
+              Currently <span className="font-normal italic text-cobalt">serving</span>
+            </h2>
+          </div>
+          <ul className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {locationPages.map((l, n) => {
+              const cities = citiesInState(l.slug);
+              return (
+                <li key={l.slug} data-reveal="up" style={i(n % 3)}>
+                  <div className="med-card group flex h-full flex-col overflow-hidden rounded-3xl border border-navy/10 bg-white">
+                    <Link
+                      href={`/locations/${l.slug}`}
+                      className="relative block aspect-[4/3] overflow-hidden bg-sand"
+                      aria-label={`${l.state} home care`}
+                    >
+                      <Image
+                        src={l.image}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                      />
+                    </Link>
+                    <div className="flex flex-1 flex-col p-7">
+                      <h3 className="font-display text-[1.9rem] font-light leading-tight">
+                        <Link href={`/locations/${l.slug}`} className="med-sweep">
+                          {l.state}
+                        </Link>
+                      </h3>
+                      <p className="mt-3 line-clamp-4 leading-relaxed text-slate-ink">{l.intro}</p>
+                      {cities.length > 0 && (
+                        <ul className="mt-6 flex flex-wrap gap-2">
+                          {cities.map((c) => (
+                            <li key={c.slug}>
+                              <Link
+                                href={cityPath(c)}
+                                className="inline-flex items-center gap-1.5 rounded-full border border-navy/15 bg-sky/50 px-3.5 py-1.5 text-[14px] font-medium transition-colors duration-150 hover:bg-sky"
+                              >
+                                <MapPin size={13} strokeWidth={1.75} aria-hidden className="text-cobalt" />
+                                {c.city}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      <Link
+                        href={`/locations/${l.slug}`}
+                        className="mt-auto flex items-center justify-between pt-8 text-[15px] font-semibold text-cobalt"
+                      >
+                        Explore {l.state}
+                        <ArrowUpRight
+                          size={18}
+                          strokeWidth={1.75}
+                          aria-hidden
+                          className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
         {/* Belief + mission */}
         <section className={`${wrap} py-20 lg:py-28`}>
           <blockquote
@@ -161,13 +232,15 @@ export default function AboutPage() {
                 {mission}
               </p>
               <ul className="mt-12 grid gap-3 sm:grid-cols-3">
-                {locations.map((l) => (
-                  <li
-                    key={l.state}
-                    className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-4"
-                  >
-                    <MapPin size={18} strokeWidth={1.75} className="shrink-0 text-apricot" aria-hidden />
-                    <span className="font-display text-xl">{l.state}</span>
+                {locationPages.map((l) => (
+                  <li key={l.slug}>
+                    <Link
+                      href={`/locations/${l.slug}`}
+                      className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-4 py-4 transition-colors duration-200 hover:bg-white/10"
+                    >
+                      <MapPin size={18} strokeWidth={1.75} className="shrink-0 text-apricot" aria-hidden />
+                      <span className="font-display text-xl">{l.state}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>

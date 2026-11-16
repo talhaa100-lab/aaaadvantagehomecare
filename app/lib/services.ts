@@ -4,6 +4,8 @@
 export type ServicePage = {
   slug: string;
   title: string;
+  /** Optional H1 when it should differ from the short nav title. */
+  heading?: string;
   metaTitle: string;
   metaDescription: string;
   /** Hero intro paragraphs + the bullet list that belongs to them */
@@ -182,7 +184,8 @@ export const servicePages: ServicePage[] = [
   {
     slug: "structured-family-caregiving",
     title: "Structured Family Caregiving",
-    metaTitle: "Structured Family Caregiving Services in South Dakota",
+    heading: "Structured Family Caregiving: Get Paid to Care for a Loved One at Home",
+    metaTitle: "Structured Family Caregiving: Get Paid to Care at Home",
     metaDescription: "Our structured family caregiving services offer support and resources to family members who are caring for a loved one with health or disability needs at home.",
     intro: {
       paragraphs: ["AAA Advantage Home Care Agency’s structured family caregiving program supports family members who are caring for their loved ones with health or disability needs at home.", "We offer a structured approach to family caregiving, with training, ongoing support, and regular health and wellness checks. Our trained caregivers provide guidance on healthcare while you can continue to care for your loved one at home.", "We make the caregiving journey more manageable and sustainable for both the caregiver and the person receiving care. You can also receive financial compensation for the care you provide through our program."],

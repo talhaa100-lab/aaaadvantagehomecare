@@ -107,7 +107,7 @@ export default function SecondHome() {
                 className="med-in text-[12px] font-semibold uppercase tracking-[0.24em] text-cobalt"
                 style={i(0)}
               >
-                AAA Advantage Home Care Agency
+                Home care and paid family caregiver programs in five states
               </p>
               <h1 className="font-display mt-6 text-[clamp(2.6rem,4.7vw,4.4rem)] font-light leading-[1.03]">
                 <span className="med-in block text-balance" style={i(1)}>

@@ -6,6 +6,11 @@ import { notFound } from "next/navigation";
 import { ArrowRight, ArrowUpRight, ChevronRight, MapPin, Phone } from "lucide-react";
 import { formLink, locations as offices, site } from "../../lib/content";
 import { getLocationPage, locationPages } from "../../lib/locations";
+import { cityPath, citiesInState } from "../../lib/cities";
+import { programForState } from "../../lib/programs";
+import { getGuides, RETRIEVED } from "../../lib/guides";
+import { JsonLd } from "../../components/JsonLd";
+import { breadcrumbJsonLd } from "../../lib/seo";
 import { MedHeader } from "../../components/MedHeader";
 import { MedFooter } from "../../components/MedFooter";
 import { ContactSection } from "../../components/ContactSection";
@@ -49,15 +54,20 @@ async function LocationContent({ params }: { params: Promise<{ slug: string }> }
   const page = getLocationPage(slug);
   if (!page) notFound();
 
-  // Keep the original heading text intact; just set the state name in italics.
-  const suffix = ` in ${page.state}`;
-  const headingLead = page.heading.endsWith(suffix)
-    ? page.heading.slice(0, -page.state.length)
-    : page.heading;
-  const headingTail = page.heading.endsWith(suffix) ? page.state : null;
+  // Set the program name (headingAccent) in italics; the rest of the H1 stays as written.
+  const accentAt = page.headingAccent ? page.heading.indexOf(page.headingAccent) : -1;
+  const headingLead = accentAt >= 0 ? page.heading.slice(0, accentAt) : page.heading;
+  const headingTail =
+    accentAt >= 0 && page.headingAccent ? page.headingAccent : null;
+  const headingAfter =
+    accentAt >= 0 && page.headingAccent
+      ? page.heading.slice(accentAt + page.headingAccent.length)
+      : "";
 
   const office = offices.find((o) => o.state === page.state);
   const others = locationPages.filter((l) => l.slug !== page.slug);
+  const guide = getGuides().find((g) => g.locationSlug === page.slug);
+  const program = programForState(page.slug);
 
   // The closing "Want to find out… / Contact us to find out…" paragraph becomes a call-out.
   const last = page.programParagraphs[page.programParagraphs.length - 1];
@@ -65,8 +75,17 @@ async function LocationContent({ params }: { params: Promise<{ slug: string }> }
   const body = hasCallout ? page.programParagraphs.slice(0, -1) : page.programParagraphs;
   const [lead, ...rest] = body;
 
+  // Michigan has its own landing page, so its "call" buttons point there instead.
+  const learnMore = page.slug === "michigan";
+
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: page.state, path: `/locations/${page.slug}` },
+        ])}
+      />
       <ScrollReveal />
       <MedHeader />
       <main>
@@ -81,7 +100,11 @@ async function LocationContent({ params }: { params: Promise<{ slug: string }> }
                   </Link>
                 </li>
                 <ChevronRight size={14} aria-hidden />
-                <li>Locations</li>
+                <li>
+                  <Link href="/locations" className="med-sweep">
+                    Locations
+                  </Link>
+                </li>
                 <ChevronRight size={14} aria-hidden />
                 <li aria-current="page" className="font-medium text-navy">
                   {page.state}
@@ -105,6 +128,7 @@ async function LocationContent({ params }: { params: Promise<{ slug: string }> }
                   {headingTail && (
                     <span className="font-normal italic text-cobalt">{headingTail}</span>
                   )}
+                  {headingAfter}
                 </h1>
                 <p className="med-in mt-8 max-w-2xl text-[1.15rem] leading-relaxed" style={i(3)}>
                   {page.intro}
@@ -114,9 +138,15 @@ async function LocationContent({ params }: { params: Promise<{ slug: string }> }
                     Let&rsquo;s Talk
                     <ArrowRight size={18} strokeWidth={1.75} aria-hidden />
                   </a>
-                  <a href={site.phoneHref} className="med-btn med-btn-ghost">
-                    {site.phone}
-                  </a>
+                  {learnMore ? (
+                    <Link href="/michigan-landing" className="med-btn med-btn-ghost">
+                      Learn more
+                    </Link>
+                  ) : (
+                    <a href={site.phoneHref} className="med-btn med-btn-ghost">
+                      {site.phone}
+                    </a>
+                  )}
                   {page.siteUrl && (
                     <a
                       href={page.siteUrl}
@@ -129,6 +159,21 @@ async function LocationContent({ params }: { params: Promise<{ slug: string }> }
                     </a>
                   )}
                 </div>
+                {guide && (
+                  <Link
+                    href={`/guides/${guide.slug}`}
+                    className="med-in group mt-8 inline-flex w-fit items-center gap-2 text-[15px] font-semibold text-cobalt"
+                    style={i(5)}
+                  >
+                    <span className="med-sweep">Read our {page.state} caregiver guide</span>
+                    <ArrowRight
+                      size={16}
+                      strokeWidth={1.75}
+                      aria-hidden
+                      className="transition-transform duration-200 ease-out group-hover:translate-x-1"
+                    />
+                  </Link>
+                )}
               </div>
 
               {/* Service-area ledger */}
@@ -149,23 +194,47 @@ async function LocationContent({ params }: { params: Promise<{ slug: string }> }
                   </h2>
 
                   <ol className="mt-8 border-t border-white/15">
-                    {page.areas.map((area, n) => (
-                      <li
-                        key={area}
-                        className="group flex items-baseline gap-5 border-b border-white/15 py-4 transition-[padding] duration-300 ease-out hover:pl-2"
-                      >
-                        <span className="w-6 text-[13px] font-semibold tabular-nums text-white/45">
-                          {String(n + 1).padStart(2, "0")}
-                        </span>
-                        <span className="font-display text-[1.7rem] font-light leading-none">
-                          {area}
-                        </span>
-                        <span
-                          aria-hidden
-                          className="ml-auto size-1.5 rounded-full bg-apricot opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                        />
-                      </li>
-                    ))}
+                    {page.areas.map((area, n) => {
+                      const city = citiesInState(page.slug).find(
+                        (c) => c.city.toLowerCase() === area.toLowerCase(),
+                      );
+                      const row = (
+                        <>
+                          <span className="w-6 text-[13px] font-semibold tabular-nums text-white/45">
+                            {String(n + 1).padStart(2, "0")}
+                          </span>
+                          <span className="font-display text-[1.7rem] font-light leading-none">
+                            {area}
+                          </span>
+                          {city ? (
+                            <ArrowUpRight
+                              size={18}
+                              strokeWidth={1.75}
+                              aria-hidden
+                              className="ml-auto text-apricot opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                            />
+                          ) : (
+                            <span
+                              aria-hidden
+                              className="ml-auto size-1.5 rounded-full bg-apricot opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                            />
+                          )}
+                        </>
+                      );
+                      const rowClass =
+                        "group flex items-baseline gap-5 py-4 transition-[padding] duration-300 ease-out hover:pl-2";
+                      return (
+                        <li key={area} className="border-b border-white/15">
+                          {city ? (
+                            <Link href={cityPath(city)} className={rowClass}>
+                              {row}
+                            </Link>
+                          ) : (
+                            <div className={rowClass}>{row}</div>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ol>
 
                   {office && (
@@ -241,11 +310,58 @@ async function LocationContent({ params }: { params: Promise<{ slug: string }> }
                       Let&rsquo;s Talk
                       <ArrowRight size={18} strokeWidth={1.75} aria-hidden />
                     </a>
-                    <a href={site.phoneHref} className="med-btn med-btn-ghost">
-                      <Phone size={17} strokeWidth={1.75} aria-hidden />
-                      {site.phone}
-                    </a>
+                    {learnMore ? (
+                      <Link href="/michigan-landing" className="med-btn med-btn-ghost">
+                        Learn more
+                      </Link>
+                    ) : (
+                      <a href={site.phoneHref} className="med-btn med-btn-ghost">
+                        <Phone size={17} strokeWidth={1.75} aria-hidden />
+                        {site.phone}
+                      </a>
+                    )}
                   </div>
+                </div>
+              )}
+
+              {guide && (
+                <section
+                  aria-labelledby="glance-title"
+                  className="mt-10 rounded-3xl border border-navy/10 bg-white p-7 sm:p-9"
+                  data-reveal="up"
+                >
+                  <h3 id="glance-title" className="font-display text-[1.6rem] font-normal leading-snug text-navy">
+                    {page.state} at a glance
+                  </h3>
+                  <dl className="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+                    {guide.facts.map((f) => (
+                      <div key={f.label}>
+                        <dt className="text-[12px] font-semibold uppercase tracking-[0.16em] text-cobalt">
+                          {f.label}
+                        </dt>
+                        <dd className="mt-1.5 leading-snug text-ink">{f.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p className="mt-6 text-[13px] text-slate-ink">
+                    Checked against official state sources on {RETRIEVED}.
+                  </p>
+                  <Link
+                    href={`/guides/${guide.slug}`}
+                    className="med-btn med-btn-ghost mt-5 inline-flex"
+                  >
+                    Read the full {page.state} guide
+                    <ArrowRight size={18} strokeWidth={1.75} aria-hidden />
+                  </Link>
+                </section>
+              )}
+
+              {program && (
+                <div className="mt-10" data-reveal="up">
+                  <Link href={`/programs/${program.slug}`} className="med-btn med-btn-ghost">
+                    {program.short} services &amp; eligibility
+                    <ArrowRight size={18} strokeWidth={1.75} aria-hidden />
+                  </Link>
                 </div>
               )}
 

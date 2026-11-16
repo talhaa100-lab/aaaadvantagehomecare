@@ -74,9 +74,9 @@ export function MedFooter() {
           </div>
 
           <div>
-            <h3 className={heading}>Terms and Privacy</h3>
+            <h3 className={heading}>Company</h3>
             <ul className="mt-6 space-y-3.5 text-[15px]">
-              {footer.legal.map((l) => (
+              {[...footer.company, ...footer.legal].map((l) => (
                 <li key={l.label}>
                   <Link href={l.href} className={link}>
                     {l.label}

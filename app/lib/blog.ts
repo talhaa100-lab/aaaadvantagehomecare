@@ -1,5 +1,6 @@
 // Blog posts come from Sanity Studio (see app/lib/sanity.ts) and are prepared for display here.
 import { getSanityPosts, type SanityPost } from "./sanity";
+import legacyPosts from "./legacy-posts.json";
 
 type PostSource = SanityPost & { metaTitle?: string | null };
 
@@ -73,9 +74,17 @@ function prepare(p: PostSource): Post {
   };
 }
 
-/** Posts published in Sanity, newest first. */
+/**
+ * Posts published in Sanity plus the older articles carried over from the previous
+ * website (a Sanity post with the same slug always wins). Newest first.
+ */
 export async function getPosts(): Promise<Post[]> {
-  return (await getSanityPosts()).map(prepare);
+  const sanity = await getSanityPosts();
+  const taken = new Set(sanity.map((p) => p.slug));
+  const legacy = (legacyPosts as PostSource[]).filter((p) => !taken.has(p.slug));
+  return [...sanity, ...legacy]
+    .map(prepare)
+    .sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export async function getPost(slug: string) {

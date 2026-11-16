@@ -473,3 +473,403 @@ details.faq[open] .med-chevron {
 .rail::-webkit-scrollbar {
   display: none;
 }
+
+/* ---------- Guide library (search, chips, question boxes) ----------
+   Motion rules: filtering/typing never animates. Only press feedback,
+   hover colour, and the open/close of a question card move. */
+
+.med .qa-search {
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 250ms var(--ease-out);
+}
+.med .qa-search::-webkit-search-cancel-button {
+  display: none;
+}
+.med .qa-search:focus {
+  background-color: #fff;
+  border-color: var(--color-cobalt);
+  box-shadow: 0 0 0 4px rgb(30 90 150 / 0.14);
+  outline: none;
+}
+
+.med .qa-icon-btn {
+  display: inline-flex;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--color-sky);
+  color: var(--color-navy);
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms ease;
+}
+.med .qa-icon-btn:active {
+  transform: scale(0.92);
+}
+
+/* Filter chips */
+.med .qa-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-edge);
+  background: #fff;
+  padding: 0.55rem 1rem;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-navy);
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+.med .qa-chip:active {
+  transform: scale(0.97);
+}
+.med .qa-chip[aria-pressed="true"] {
+  background: var(--color-navy);
+  border-color: var(--color-navy);
+  color: #fff;
+}
+.med .qa-chip-count {
+  border-radius: 9999px;
+  background: var(--color-sky);
+  padding: 0.1rem 0.45rem;
+  font-size: 12px;
+  color: var(--color-cobalt);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+.med .qa-chip[aria-pressed="true"] .qa-chip-count {
+  background: rgb(255 255 255 / 0.16);
+  color: #fff;
+}
+
+.med .qa-try {
+  border-radius: 9999px;
+  padding: 0.2rem 0.7rem;
+  background: var(--color-frost);
+  border: 1px solid var(--color-edge);
+  font-weight: 600;
+  color: var(--color-navy);
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 180ms ease;
+}
+.med .qa-try:active {
+  transform: scale(0.97);
+}
+
+/* Topic rows ("start from a question") */
+.med .qa-topic {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--color-edge);
+  background: #fff;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  transition:
+    transform 160ms var(--ease-out),
+    border-color 200ms ease,
+    box-shadow 250ms var(--ease-out);
+}
+.med .qa-topic:active {
+  transform: scale(0.985);
+}
+.med .qa-arrow {
+  transition: transform 220ms var(--ease-out);
+}
+
+/* Dropdown filters */
+.med .qa-dd {
+  position: relative;
+  display: flex;
+}
+@media (min-width: 1024px) {
+  .med .qa-dd {
+    width: 14.5rem;
+  }
+}
+.med .qa-dd[data-open="true"] {
+  z-index: 20;
+}
+.med .qa-dd-trigger {
+  display: flex;
+  width: 100%;
+  min-height: 3.6rem;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-edge);
+  background: #fff;
+  padding: 0.5rem 1.1rem 0.5rem 1.35rem;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-navy);
+  transition:
+    transform 160ms var(--ease-out),
+    border-color 200ms ease,
+    box-shadow 250ms var(--ease-out);
+}
+.med .qa-dd-trigger:active {
+  transform: scale(0.985);
+}
+.med .qa-dd[data-open="true"] .qa-dd-trigger {
+  border-color: rgb(30 90 150 / 0.6);
+  box-shadow: 0 0 0 4px rgb(30 90 150 / 0.12);
+}
+.med .qa-dd-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  line-height: 1.15;
+}
+.med .qa-dd-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-slate-ink);
+}
+.med .qa-dd-value {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.med .qa-dd-chevron {
+  transition: transform 200ms var(--ease-out);
+}
+.med .qa-dd[data-open="true"] .qa-dd-chevron {
+  transform: rotate(180deg);
+}
+.med .qa-dd-menu {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(100% + 0.5rem);
+  max-height: 20rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 1.25rem;
+  border: 1px solid var(--color-edge);
+  background: #fff;
+  padding: 0.4rem;
+  box-shadow: 0 24px 48px -20px rgb(11 37 64 / 0.4);
+  transform-origin: top left;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.97) translateY(-4px);
+  transition:
+    opacity 120ms ease,
+    transform 120ms var(--ease-out),
+    visibility 0s linear 120ms;
+}
+@media (min-width: 1024px) {
+  .med .qa-dd-menu {
+    inset-inline-end: auto;
+    min-width: 100%;
+    width: max-content;
+    max-width: min(22rem, 90vw);
+  }
+}
+.med .qa-dd[data-open="true"] .qa-dd-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 160ms ease,
+    transform 180ms var(--ease-out),
+    visibility 0s;
+}
+.med .qa-dd-option {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 0.8rem;
+  padding: 0.6rem 0.85rem;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-navy);
+  outline: none;
+}
+.med .qa-dd-option:focus-visible {
+  background: var(--color-frost);
+  box-shadow: inset 0 0 0 2px rgb(30 90 150 / 0.45);
+}
+.med .qa-dd-option[aria-selected="true"] {
+  background: var(--color-sky);
+  font-weight: 600;
+}
+.med .qa-dd-check {
+  width: 15px;
+  opacity: 0;
+  color: var(--color-cobalt);
+}
+.med .qa-dd-option[aria-selected="true"] .qa-dd-check {
+  opacity: 1;
+}
+
+/* Question boxes: equal-height cards that open a dialog */
+.med .qa-card {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--color-edge);
+  background: #fff;
+  padding: 1.5rem;
+  text-align: left;
+  transition:
+    transform 160ms var(--ease-out),
+    border-color 200ms ease,
+    box-shadow 250ms var(--ease-out);
+}
+.med .qa-card:active {
+  transform: scale(0.985);
+}
+.med .qa-preview {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+/* Dialog: enter 240ms ease-out, exit 150ms. Centered (modal), so origin stays center. */
+.med .qa-dialog {
+  margin: auto;
+  width: min(42rem, calc(100vw - 1.5rem));
+  max-height: min(88vh, 52rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 1.75rem;
+  background: #fff;
+  color: var(--color-navy);
+  box-shadow: 0 40px 80px -30px rgb(11 37 64 / 0.55);
+  opacity: 0;
+  transform: scale(0.96) translateY(8px);
+  transition:
+    opacity 150ms ease,
+    transform 150ms var(--ease-out),
+    overlay 150ms allow-discrete,
+    display 150ms allow-discrete;
+}
+.med .qa-dialog[open] {
+  opacity: 1;
+  transform: none;
+  transition-duration: 240ms;
+}
+@starting-style {
+  .med .qa-dialog[open] {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+}
+.med .qa-dialog::backdrop {
+  background: rgb(7 26 46 / 0.55);
+  opacity: 0;
+  transition:
+    opacity 150ms ease,
+    overlay 150ms allow-discrete,
+    display 150ms allow-discrete;
+}
+.med .qa-dialog[open]::backdrop {
+  opacity: 1;
+  transition-duration: 220ms;
+}
+@starting-style {
+  .med .qa-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+.med .qa-dialog-inner {
+  padding: 1.5rem 1.5rem 1.75rem;
+}
+@media (min-width: 640px) {
+  .med .qa-dialog-inner {
+    padding: 2rem 2.25rem 2.25rem;
+  }
+}
+.med .qa-dialog-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+html:has(.qa-dialog[open]) {
+  overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .med .qa-dd-trigger:hover {
+    border-color: rgb(11 37 64 / 0.4);
+  }
+  .med .qa-dd-option:hover:not([aria-selected="true"]) {
+    background: var(--color-frost);
+  }
+  .med .qa-chip:hover:not([aria-pressed="true"]) {
+    border-color: rgb(11 37 64 / 0.4);
+    background: var(--color-frost);
+  }
+  .med .qa-try:hover {
+    background: var(--color-sky);
+  }
+  .med .qa-icon-btn:hover {
+    background: var(--color-edge);
+  }
+  .med .qa-topic:hover {
+    border-color: rgb(11 37 64 / 0.3);
+    box-shadow: 0 20px 36px -28px rgb(11 37 64 / 0.5);
+  }
+  .med .qa-topic:hover .qa-arrow {
+    transform: translateX(3px);
+  }
+  .med .qa-card:hover {
+    border-color: rgb(11 37 64 / 0.3);
+    box-shadow: 0 22px 38px -28px rgb(11 37 64 / 0.5);
+  }
+  .med .qa-card:hover .qa-arrow {
+    transform: translateX(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .med .qa-dd-trigger:active,
+  .med .qa-card:active,
+  .med .qa-topic:active,
+  .med .qa-chip:active,
+  .med .qa-try:active,
+  .med .qa-icon-btn:active {
+    transform: none;
+  }
+  .med .qa-dialog,
+  .med .qa-dialog[open] {
+    transform: none;
+  }
+  .med .qa-arrow,
+  .med .qa-dd-chevron {
+    transition: none;
+  }
+  .med .qa-dd-menu,
+  .med .qa-dd[data-open="true"] .qa-dd-menu {
+    transform: none;
+  }
+}

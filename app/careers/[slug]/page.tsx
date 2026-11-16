@@ -7,6 +7,8 @@ import { ArrowLeft, ArrowRight, Briefcase, CalendarDays, ChevronRight, MapPin, P
 import { site } from "../../lib/content";
 import { getJob, jobDescription, jobs } from "../../lib/jobs";
 import { MedHeader } from "../../components/MedHeader";
+import { JsonLd } from "../../components/JsonLd";
+import { breadcrumbJsonLd, jobPostingJsonLd } from "../../lib/seo";
 import { MedFooter } from "../../components/MedFooter";
 import { ContactSection } from "../../components/ContactSection";
 import { ScrollReveal } from "../../components/ScrollReveal";
@@ -76,6 +78,16 @@ async function JobContent({ params }: { params: Promise<{ slug: string }> }) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          jobPostingJsonLd(job),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Careers", path: "/careers" },
+            { name: job.title, path: `/careers/${job.slug}` },
+          ]),
+        ]}
+      />
       <ScrollReveal />
       <MedHeader />
       <main>

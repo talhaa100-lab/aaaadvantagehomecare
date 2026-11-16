@@ -5,6 +5,8 @@ export type LocationPage = {
   slug: string;
   state: string;
   heading: string;
+  /** Part of `heading` shown in italic cobalt (the program name). */
+  headingAccent?: string;
   metaTitle: string;
   metaDescription: string;
   intro: string;
@@ -20,9 +22,10 @@ export const locationPages: LocationPage[] = [
   {
     "slug": "arizona",
     "state": "Arizona",
-    "heading": "Home Care & Paid Family Caregiver Services in Arizona",
-    "metaTitle": "Home Care & Paid Family Caregiver Services in Arizona",
-    "metaDescription": "AAA Advantage Home Care Agency provides home care and paid family caregiver services in Arizona. We help families in Phoenix, Mesa, Chandler, Gilbert & Tucson.",
+    "heading": "Arizona ALTCS Family Caregiver Program",
+    "headingAccent": "Arizona ALTCS",
+    "metaTitle": "Arizona ALTCS Family Caregiver: Get Paid to Care at Home",
+    "metaDescription": "Arizona ALTCS can pay a family caregiver, including a spouse or parent under set rules and a 40-hour weekly limit. Learn how to start with AAA Advantage.",
     "intro": "AAA Advantage Home Care provides compassionate in-home care and caregiver support for individuals and families across Arizona. Our services include Arizona Long Term Care Services (ALTCS) in Chandler, Gilbert, Mesa, Phoenix, and Tucson, and help eligible family caregivers get paid for the care they provide.",
     "areas": [
       "Chandler",
@@ -43,9 +46,10 @@ export const locationPages: LocationPage[] = [
   {
     "slug": "indiana",
     "state": "Indiana",
-    "heading": "Home Care and Paid Family Caregiver Services in Indiana",
-    "metaTitle": "Home Care and Paid Family Caregiver Services in Indiana",
-    "metaDescription": "Get home care and caregiver support in Indiana. Learn about Structured Family Caregiving, the Aged and Disabled Waiver, and paid family caregiver options.",
+    "heading": "Indiana Structured Family Caregiving (SFC)",
+    "headingAccent": "Structured Family Caregiving",
+    "metaTitle": "Indiana Structured Family Caregiving: Daily Rates & How to Apply",
+    "metaDescription": "Indiana Structured Family Caregiving has state daily rates of $77.54, $99.71 or $133.44 by level. See who qualifies and how to apply with AAA Advantage.",
     "intro": "Receive reliable in-home care support for individuals across Indiana. Our service areas include Carmel, Evansville, Fort Wayne, Indianapolis, and South Bend. We help eligible individuals access home and community-based care through programs such as the Aged and Disabled (A&D) Waiver and Structured Family Caregiving (SFC), including opportunities for qualified family members to receive compensation for providing care.",
     "areas": [
       "Carmel",
@@ -66,9 +70,10 @@ export const locationPages: LocationPage[] = [
   {
     "slug": "missouri",
     "state": "Missouri",
-    "heading": "Home Care & Paid Family Caregiver Services in Missouri",
-    "metaTitle": "Home Care & Paid Family Caregiver Services in Missouri",
-    "metaDescription": "AAA Advantage Home Care Agency provides home care and caregiver support in Missouri with Consumer Directed Services (CDS) program and appropriate compensation.",
+    "heading": "Missouri Consumer Directed Services (CDS): Get Paid to Care for Family",
+    "headingAccent": "Missouri Consumer Directed Services (CDS)",
+    "metaTitle": "Missouri Consumer Directed Services (CDS) | Get Paid",
+    "metaDescription": "Missouri Consumer Directed Services lets a loved one hire a family member as their attendant. See who can be hired, who can't, and how to start.",
     "intro": "AAA Advantage Home Care Agency provides dependable in-home care and caregiver support to individuals and families throughout Missouri, including Columbia, Independence, Kansas City, Springfield, and St. Louis. We also help eligible family caregivers get paid for the care they provide through Missouri’s Consumer Directed Services (CDS) program.",
     "areas": [
       "Columbia",
@@ -90,9 +95,10 @@ export const locationPages: LocationPage[] = [
   {
     "slug": "south-dakota",
     "state": "South Dakota",
-    "heading": "Home Care & Paid Family Caregiver Services in South Dakota",
-    "metaTitle": "Home Care & Paid Family Caregiver Services in South Dakota",
-    "metaDescription": "Find personalized home care in South Dakota, including personal care, companionship, homemaking, and Structured Family Caregiving through the HOPE Waiver.",
+    "heading": "South Dakota HOPE Waiver Home Care",
+    "headingAccent": "South Dakota HOPE Waiver",
+    "metaTitle": "South Dakota HOPE Waiver Home Care & Paid Family Caregiving",
+    "metaDescription": "South Dakota HOPE Waiver home care for adults 65+ and eligible adults 18+, including structured family caregiving. See eligibility and how to get started.",
     "intro": "AAA Advantage Home Care Agency offers personalized, reliable home care services throughout South Dakota. From personal care and companionship to homemaking and structured family caregiving, our dedicated team helps individuals maintain their independence, comfort, and quality of life at home.",
     "areas": [
       "Aberdeen",
@@ -113,9 +119,10 @@ export const locationPages: LocationPage[] = [
   {
     "slug": "michigan",
     "state": "Michigan",
-    "heading": "Home Care & Paid Family Caregiver Services in Michigan",
-    "metaTitle": "Home Care & Paid Family Caregiver Services in Michigan",
-    "metaDescription": "Learn about the Michigan Home Help program with AAA Advantage Home Care Agency. Get paid to care for your loved one in Detroit, Ann Arbor, and Grand Rapids.",
+    "heading": "Michigan Home Help Program: Get Paid to Care for a Family Member",
+    "headingAccent": "Michigan Home Help Program",
+    "metaTitle": "Michigan Home Help Program: Get Paid to Care for Family",
+    "metaDescription": "Michigan Home Help pays a family caregiver $17.13 an hour (2026). See who qualifies, who can't be paid, and how to apply, with help from AAA Advantage.",
     "intro": "AAA Advantage Home Care Agency provides personalized home care services in Michigan, including Detroit, Ann Arbor, and Grand Rapids. We help families understand the Home Help program, check eligibility requirements, and guide families through the next steps toward receiving support.",
     "areas": [
       "Detroit",

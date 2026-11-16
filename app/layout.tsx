@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { DM_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
+import { site } from "./lib/content";
+import { JsonLd } from "./components/JsonLd";
+import { organizationJsonLd } from "./lib/seo";
 
 const newsreader = Newsreader({
   variable: "--font-newsreader",
@@ -15,9 +18,18 @@ const dm = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Quality Care, Right at Home | AAA Advantage Home Care Agency",
+  metadataBase: new URL(site.url),
+  title: "Home Care Agency in MI, MO, AZ, IN & SD | AAA Advantage",
   description:
-    "AAA Advantage Home Care Agency is where fair pay meets exceptional care. We guide family caregivers through enrollment so they can care for loved ones and be compensated for it in Michigan, Missouri, and South Dakota.",
+    "AAA Advantage Home Care Agency provides home care and guides family caregivers through enrollment so they can be paid for caring for a loved one in Michigan, Missouri, Arizona, Indiana and South Dakota.",
+  // "./" resolves to each page's own URL, so every page gets a self-referencing canonical.
+  alternates: { canonical: "./" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    locale: "en_US",
+    images: [{ url: "/images/happy-fit-senior-couple-exercising-autumn-park.webp" }],
+  },
 };
 
 export default function RootLayout({
@@ -28,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${newsreader.variable} ${dm.variable}`}>
       <body className="min-h-screen">
+        <JsonLd data={organizationJsonLd()} />
         <div className="med relative">
           {/* One soft wash behind header + hero; fades fully out, no hard edge */}
           <div

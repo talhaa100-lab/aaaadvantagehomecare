@@ -3,6 +3,8 @@
 
 export const site = {
   name: "AAA Advantage Home Care Agency",
+  /** Canonical origin. Change this one line if the live domain ever differs (e.g. adds www). */
+  url: "https://aaaadvantagehomecare.com",
   phone: "314 970 3753",
   phoneHref: "tel:+13149703753",
   email: "hello (at) aaaadvantagehomecare.com",
@@ -26,8 +28,9 @@ export const nav: NavItem[] = [
   { label: "Home", href: "/" },
   {
     label: "Services",
-    href: "#services",
+    href: "/services",
     children: [
+      { label: "All Services", href: "/services" },
       { label: "Adult Companion Care", href: "/services/adult-companion-care" },
       { label: "Attendant Care", href: "/services/attendant-care" },
       { label: "Homemaking", href: "/services/homemaking" },
@@ -41,8 +44,9 @@ export const nav: NavItem[] = [
   },
   {
     label: "Locations",
-    href: "#locations",
+    href: "/locations",
     children: [
+      { label: "All Locations", href: "/locations" },
       { label: "Arizona", href: "/locations/arizona" },
       { label: "Indiana", href: "/locations/indiana" },
       { label: "Missouri", href: "/locations/missouri" },
@@ -51,9 +55,8 @@ export const nav: NavItem[] = [
     ],
   },
   { label: "Careers", href: "/careers" },
+  { label: "Guides", href: "/guides" },
   { label: "Blog", href: "/blog" },
-  { label: "About Us", href: "/about-us" },
-  { label: "Contact Us", href: "/contact-us" },
 ];
 
 export const highlights = [
@@ -268,6 +271,10 @@ export const footer = {
     label,
     href: `/services/${label.toLowerCase().replace(/ /g, "-")}`,
   })),
+  company: [
+    { label: "About Us", href: "/about-us" },
+    { label: "Contact Us", href: "/contact-us" },
+  ],
   legal: [
     { label: "Terms and Conditions", href: "/terms-and-conditions" },
     { label: "Privacy Policy", href: "/privacy-policy" },

@@ -18,6 +18,8 @@ import {
   type ServicePage,
 } from "../../lib/services";
 import { MedHeader } from "../../components/MedHeader";
+import { JsonLd } from "../../components/JsonLd";
+import { breadcrumbJsonLd, faqJsonLd } from "../../lib/seo";
 import { MedFooter } from "../../components/MedFooter";
 import { StartCard } from "../../components/StartCard";
 import { ScrollReveal } from "../../components/ScrollReveal";
@@ -255,6 +257,16 @@ async function ServiceContent({
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+            { name: page.title, path: `/services/${page.slug}` },
+          ]),
+          ...(page.faqs.length > 0 ? [faqJsonLd(page.faqs)] : []),
+        ]}
+      />
       <ScrollReveal />
       <MedHeader />
       <main>
@@ -274,7 +286,7 @@ async function ServiceContent({
                 </li>
                 <ChevronRight size={14} aria-hidden />
                 <li>
-                  <Link href="/#services" className="med-sweep">
+                  <Link href="/services" className="med-sweep">
                     Services
                   </Link>
                 </li>
@@ -297,7 +309,7 @@ async function ServiceContent({
                   className="med-in font-display mt-6 text-[clamp(2.8rem,5.2vw,4.8rem)] font-light leading-[1.03] text-balance"
                   style={i(2)}
                 >
-                  {page.title}
+                  {page.heading ?? page.title}
                 </h1>
 
                 <div className="med-in mt-8 space-y-4" style={i(3)}>
